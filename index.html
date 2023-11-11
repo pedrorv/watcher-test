@@ -113,11 +113,11 @@
 
         position: fixed;
         z-index: 1;
-        bottom: -80px;
+        top: -80px;
         right: 20px;
-        padding: 1rem 1.5rem;
+        padding: 1rem 2rem;
 
-        transition: bottom 0.4s ease-out;
+        transition: top 0.4s ease-out;
 
         background: #fff;
         border-radius: 8px;
@@ -251,7 +251,7 @@
           if (!sessionLink) return;
           if (!sessionId) return;
 
-          sessionContainer.style.bottom = "20px";
+          sessionContainer.style.top = "20px";
           sessionLink.setAttribute(
             "href",
             `https://watcher-dashboard.onrender.com/session/${sessionId}/recording`
