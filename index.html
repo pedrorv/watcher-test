@@ -11,6 +11,7 @@
       body {
         padding: 0;
         margin: 0;
+        font-family: Lato, sans-serif;
       }
 
       h1 {
@@ -23,7 +24,6 @@
       body {
         background: #fff;
         color: #333;
-        font-family: Lato, sans-serif;
       }
 
       .external {
@@ -105,6 +105,36 @@
         height: 100px;
         background-color: #005246;
       }
+
+      #session-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: fixed;
+        z-index: 1;
+        bottom: -80px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+
+        transition: bottom 0.4s ease-out;
+
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 4px 4px 5px 2px rgba(0, 0, 0, 0.65);
+      }
+
+      #session-link,
+      #session-link:visited {
+        color: #333;
+        text-decoration: none;
+      }
+
+      #session-link:active,
+      #session-link:hover {
+        color: #333;
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -133,7 +163,10 @@
         <div class="drop-zone"></div>
       </main>
     </section>
-    <!-- <section class="external"></section> -->
+
+    <div id="session-container">
+      <a id="session-link" href="" target="_blank">Veja sua sessão aqui</a>
+    </div>
 
     <script src="watcher.js"></script>
     <script>
@@ -203,11 +236,28 @@
         dropZone.addEventListener("drop", dragDrop);
       }
 
-      window.onload = () =>
-        watcher.init(
+      window.addEventListener("load", async function initWatcher() {
+        await watcher.init(
           "583248c7-30e4-4098-b54f-1e3e0d9a2c45",
           "https://watcher-server.onrender.com"
         );
+
+        setTimeout(function showFloatable() {
+          const sessionContainer = document.getElementById("session-container");
+          const sessionLink = document.getElementById("session-link");
+          const sessionId = watcher.getSessionId();
+
+          if (!sessionContainer) return;
+          if (!sessionLink) return;
+          if (!sessionId) return;
+
+          sessionContainer.style.bottom = "20px";
+          sessionLink.setAttribute(
+            "href",
+            `https://watcher-dashboard.onrender.com/session/${sessionId}/recording`
+          );
+        }, 10_000);
+      });
     </script>
   </body>
 </html>
